@@ -1,5 +1,11 @@
 {{ config(materialized='view') }}
-
+WITH tripdata AS 
+(
+  SELECT *,
+    ROW_NUMBER() OVER(PARTITION BY vendorid, tpep_pickup_datetime) as rn
+  from {{ source('staging','yellow_tripdata1') }}
+  WHERE vendorid is not null 
+)
 SELECT 
     -- identifiers
     {{ dbt_utils.generate_surrogate_key(['vendorid', 'tpep_pickup_datetime']) }} as tripid,  
@@ -32,8 +38,8 @@ SELECT
     {{ get_payment_type_description("payment_type") }} AS payment_type_description
 
 
-FROM {{ source('staging', 'yellow_tripdata1') }}
-WHERE vendorid IS NOT NULL
+FROM tripdata
+WHERE rn = 1
 
 -- dbt build --select <model_name> --vars '{'is_test_run': 'false'}'
 
