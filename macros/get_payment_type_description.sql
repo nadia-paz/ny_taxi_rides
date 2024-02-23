@@ -4,7 +4,7 @@
 
 {% macro get_payment_type_description(payment_type) -%}
 
-    CASE {{ payment_type }}
+    CASE CAST( {{ payment_type }} AS NUMERIC)
         WHEN 1 THEN 'Credit card'
         WHEN 2 THEN 'Cash'
         WHEN 3 THEN 'No charge'
