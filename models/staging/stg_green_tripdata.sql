@@ -24,10 +24,9 @@ SELECT
     CAST(tip_amount AS NUMERIC) AS tip_amount,
     CAST(tolls_amount AS NUMERIC) AS tolls_amount,
     CAST(ehail_fee AS NUMERIC) AS ehail_fee,
-    CAST(improvement_surcharge AS NUMERIC) AS improvement_surcharge,
+    CAST(imp_surcharge AS NUMERIC) AS improvement_surcharge,
     CAST(total_amount AS NUMERIC) AS total_amount,
-    CAST(payment_type AS INTEGER) AS payment_type,
-    coalesce({{ dbt.safe_CAST("payment_type", api.Column.translate_type("INTEGER")) }},0) AS payment_type,
+    CAST(payment_type AS NUMERIC) AS payment_type,
     {{ get_payment_type_description("payment_type") }} AS payment_type_description
 
 
