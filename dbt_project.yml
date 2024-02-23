@@ -40,3 +40,9 @@ models:
     # Applies to all files under models/example/
     # example:
     #   +materialized: table
+
+seeds: 
+    ny_taxi_rides:
+        taxi_zone_lookup:
+            +column_types:
+                locationid: numeric
